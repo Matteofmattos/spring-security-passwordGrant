@@ -3,14 +3,9 @@ package com.matteof_mattos.spring_security_passwordGrant.entities;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
+
 @Embeddable
-@EqualsAndHashCode(of = "product")
 public class OrderItemPK {
 
     @ManyToOne
@@ -26,6 +21,22 @@ public class OrderItemPK {
 
     public OrderItemPK(Product product, Order order) {
         this.product = product;
+        this.order = order;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
         this.order = order;
     }
 }

@@ -1,14 +1,11 @@
 package com.matteof_mattos.spring_security_passwordGrant.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
+
 @Entity
 @Table(name = "tb_product")
 public class Product {
@@ -45,4 +42,49 @@ public class Product {
         this.price = price;
         this.imgUrl = imgUrl;
     }
+
+    public void addCategory(Category category){
+        this.categories.add(category);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
 }
