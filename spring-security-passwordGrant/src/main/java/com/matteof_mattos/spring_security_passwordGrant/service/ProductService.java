@@ -8,12 +8,14 @@ import com.matteof_mattos.spring_security_passwordGrant.exceptions.DatabaseExcep
 import com.matteof_mattos.spring_security_passwordGrant.exceptions.ResourceNotFoundException;
 import com.matteof_mattos.spring_security_passwordGrant.repository.CategoryRepository;
 import com.matteof_mattos.spring_security_passwordGrant.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +47,8 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<ProductDto> getAllProducts(){
 
-        return  productRepository.findAll().stream().map(product -> new ProductDto(product.getId(),
+        return  productRepository.findAll().stream().sorted(Comparator.comparing(Product::getId))
+                .map(product -> new ProductDto(product.getId(),
                 product.getName(),
                 product.getImgUrl(),
                 product.getDescription(),
@@ -70,7 +73,6 @@ public class ProductService {
 
         return getProductoProductDTO(product);
     }
-
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteProductById(Long id) throws DatabaseException {
@@ -114,7 +116,7 @@ public class ProductService {
 
             return getProductoProductDTO(product);
 
-        } catch (ResourceNotFoundException exc) {
+        } catch (EntityNotFoundException exc) {
             throw new ResourceNotFoundException("# Recurso não encontrado.");
         }
     }
