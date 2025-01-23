@@ -1,7 +1,6 @@
 package com.matteof_mattos.spring_security_passwordGrant.entities;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +16,7 @@ public class Order {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
-    @OneToOne
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // O payment será mapeado pelo order
     private Payment payment;
 
     private OrderStatus status;
