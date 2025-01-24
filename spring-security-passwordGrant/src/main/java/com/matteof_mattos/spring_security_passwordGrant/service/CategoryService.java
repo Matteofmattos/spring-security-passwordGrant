@@ -8,6 +8,8 @@ import com.matteof_mattos.spring_security_passwordGrant.repository.CategoryRepos
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +34,10 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public Set<CategoryDto> findAllCategories() {
+    public Page<CategoryDto> findAllCategories(String name, Pageable pageable) {
 
-        return categoryRepository.findAll().stream()
-                .sorted(Comparator.comparing(Category::getId))
-                .map(category -> new CategoryDto(category.getId(), category.getName()))
-                .collect(Collectors.toSet());
+        return categoryRepository.searchByNamePageable(name,pageable)
+                .map(category -> new CategoryDto(category.getId(), category.getName()));
     }
 
 

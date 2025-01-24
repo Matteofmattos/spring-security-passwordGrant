@@ -1,7 +1,6 @@
 package com.matteof_mattos.spring_security_passwordGrant.entities;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 
 @Entity

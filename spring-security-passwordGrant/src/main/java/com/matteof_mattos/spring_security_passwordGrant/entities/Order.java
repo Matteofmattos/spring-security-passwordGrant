@@ -72,8 +72,8 @@ public class Order {
         return orderItems;
     }
 
-    public void setOrderItems(Set<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void addOrderItem(OrderItem orderItem){
+        this.orderItems.add(orderItem);
     }
 
 }

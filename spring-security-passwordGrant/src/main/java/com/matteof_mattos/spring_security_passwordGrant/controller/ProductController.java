@@ -3,8 +3,13 @@ package com.matteof_mattos.spring_security_passwordGrant.controller;
 import com.matteof_mattos.spring_security_passwordGrant.dto.ProductDto;
 import com.matteof_mattos.spring_security_passwordGrant.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -15,28 +20,41 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public ProductDto insertNewProduct(@RequestBody ProductDto productDto){
-        return productService.insertNewProd(productDto);
+    public ResponseEntity<ProductDto> insertNewProduct(@RequestBody ProductDto productDto){
+
+        productDto = productService.insertNewProd(productDto);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(productDto.id()).toUri();
+
+        return ResponseEntity.created(uri).body(productDto);
     }
 
     @GetMapping(value = "/{id}")
-    public ProductDto getProductById(@PathVariable Long id){
-        return productService.getProductById(id);
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id){
+
+        return ResponseEntity.ok(productService.getProductById(id));
     }
 
     @GetMapping
-    public List<ProductDto> findAllProducts(){
-        return productService.getAllProducts();
+    public ResponseEntity<Page<ProductDto>> findAllProducts(@RequestParam(name = "name",defaultValue = "")
+                                                                String name, Pageable pageable){
+
+        return ResponseEntity.ok(productService.getAllProducts(name,pageable));
     }
+
 
     @DeleteMapping(value = "/{id}")
-    public void deleteProductById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteProductById(@PathVariable Long id){
+
         productService.deleteProductById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(value = "/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
 
-        return productService.updateProduct(id,productDto);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
+
+        return ResponseEntity.ok(productService.updateProduct(id,productDto));
     }
 }

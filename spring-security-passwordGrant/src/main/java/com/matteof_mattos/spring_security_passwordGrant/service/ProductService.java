@@ -11,6 +11,8 @@ import com.matteof_mattos.spring_security_passwordGrant.repository.ProductReposi
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,14 +47,13 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductDto> getAllProducts(){
+    public Page<ProductDto> getAllProducts(String name, Pageable pageable){
 
-        return  productRepository.findAll().stream().sorted(Comparator.comparing(Product::getId))
-                .map(product -> new ProductDto(product.getId(),
+          return productRepository.searchByNamePageable(name,pageable).map(product -> new ProductDto(product.getId(),
                 product.getName(),
                 product.getImgUrl(),
                 product.getDescription(),
-                product.getPrice(),getCategoriesDTO(product.getCategories()))).toList();
+                product.getPrice(),getCategoriesDTO(product.getCategories())));
     }
 
     @Transactional
