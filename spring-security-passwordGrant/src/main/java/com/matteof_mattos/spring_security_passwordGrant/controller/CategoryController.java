@@ -1,16 +1,16 @@
 package com.matteof_mattos.spring_security_passwordGrant.controller;
 
+import com.matteof_mattos.spring_security_passwordGrant.dto.CategoryDto;
+import com.matteof_mattos.spring_security_passwordGrant.service.CategoryService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import com.matteof_mattos.spring_security_passwordGrant.dto.CategoryDto;
-import com.matteof_mattos.spring_security_passwordGrant.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/categories")
@@ -33,7 +33,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDto> insertNewCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> insertNewCategory(@Valid @RequestBody CategoryDto categoryDto){
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoryDto.id()).toUri();
 
@@ -44,7 +44,9 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id,
+                                                      @Valid @RequestBody CategoryDto categoryDto){
+
         return ResponseEntity.ok(categoryService.updateCategory(id,categoryDto));
     }
 

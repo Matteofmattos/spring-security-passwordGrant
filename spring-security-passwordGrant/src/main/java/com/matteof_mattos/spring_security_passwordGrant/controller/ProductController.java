@@ -2,6 +2,7 @@ package com.matteof_mattos.spring_security_passwordGrant.controller;
 
 import com.matteof_mattos.spring_security_passwordGrant.dto.ProductDto;
 import com.matteof_mattos.spring_security_passwordGrant.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductDto> insertNewProduct(@RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> insertNewProduct(@Valid @RequestBody ProductDto productDto){
 
         productDto = productService.insertNewProd(productDto);
 
@@ -53,7 +54,7 @@ public class ProductController {
 
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> updateProduct( @PathVariable Long id, @Valid @RequestBody ProductDto productDto){
 
         return ResponseEntity.ok(productService.updateProduct(id,productDto));
     }

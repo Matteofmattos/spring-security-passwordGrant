@@ -2,6 +2,7 @@ package com.matteof_mattos.spring_security_passwordGrant.controller;
 
 import com.matteof_mattos.spring_security_passwordGrant.dto.OrderDto;
 import com.matteof_mattos.spring_security_passwordGrant.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> createNewOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<OrderDto> createNewOrder(@Valid @RequestBody OrderDto orderDto){
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(orderDto.id()).toUri();
 
