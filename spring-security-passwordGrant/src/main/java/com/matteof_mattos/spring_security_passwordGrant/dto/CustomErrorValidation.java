@@ -8,4 +8,5 @@ public record CustomErrorValidation(Instant timestamp,
                                     String error,
                                     String path,
                                     List<FieldMessage> errors) {
+
 }
