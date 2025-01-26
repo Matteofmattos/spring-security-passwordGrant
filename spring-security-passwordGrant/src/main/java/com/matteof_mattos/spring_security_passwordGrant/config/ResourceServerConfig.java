@@ -23,5 +23,4 @@ public class ResourceServerConfig {
         return http.build();
     }
 
-
 }
