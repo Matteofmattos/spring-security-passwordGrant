@@ -41,10 +41,10 @@ public class CustomPasswordAuthenticationConverter implements AuthenticationConv
             throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_REQUEST);
         }
 
-        Set<String> requiredScopes = null;
+        Set<String> requested_scopes = null; // *** Importante !
 
         if (StringUtils.hasText(scopeValueList)){
-            requiredScopes = new HashSet<>(
+            requested_scopes = new HashSet<>(
                     Arrays.asList(StringUtils.delimitedListToStringArray(scopeValueList, " ")));
         }
 
@@ -63,7 +63,7 @@ public class CustomPasswordAuthenticationConverter implements AuthenticationConv
         }
 
 
-        Map<String,String> additionalParameters = new HashMap<>();
+        Map<String,Object> additionalParameters = new HashMap<>();
 
         parameters.forEach((key,value)-> {
             if ((!key.equals(OAuth2ParameterNames.SCOPE) && (!key.equals(OAuth2ParameterNames.GRANT_TYPE)))) {
@@ -74,7 +74,7 @@ public class CustomPasswordAuthenticationConverter implements AuthenticationConv
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return new CustomPasswordAuthenticationToken(clientPrincipal, requestedScopes, additionalParameters);
+        return new CustomPasswordAuthenticationToken(authentication, requested_scopes, additionalParameters);
     }
 
 
