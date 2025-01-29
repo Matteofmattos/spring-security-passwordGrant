@@ -5,6 +5,7 @@ import com.matteof_mattos.spring_security_passwordGrant.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,12 +18,14 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id){
 
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping
     public ResponseEntity<OrderDto> createNewOrder(@Valid @RequestBody OrderDto orderDto){
 

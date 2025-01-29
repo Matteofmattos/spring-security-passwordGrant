@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -20,6 +20,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDto> insertNewProduct(@Valid @RequestBody ProductDto productDto){
 
@@ -30,11 +32,13 @@ public class ProductController {
         return ResponseEntity.created(uri).body(productDto);
     }
 
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long id){
 
         return ResponseEntity.ok(productService.getProductById(id));
     }
+
 
     @GetMapping
     public ResponseEntity<Page<ProductDto>> findAllProducts(@RequestParam(name = "name",defaultValue = "")
@@ -44,6 +48,7 @@ public class ProductController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteProductById(@PathVariable Long id){
 
@@ -53,6 +58,7 @@ public class ProductController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProductDto> updateProduct( @PathVariable Long id, @Valid @RequestBody ProductDto productDto){
 

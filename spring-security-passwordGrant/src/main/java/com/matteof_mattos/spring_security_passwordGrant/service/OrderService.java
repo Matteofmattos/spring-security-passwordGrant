@@ -34,18 +34,22 @@ public class OrderService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private UserService userService;
+
 
     @Transactional
     public OrderDto createNewOrder(OrderDto orderDto) {
 
-        User client = userRepository.findById(orderDto.client().id()).orElseThrow(() -> new ResourceNotFoundException("# Recurso não encontrado"));
+        User authenticatedUser = userService.getAuthenticated_user();
 
         Order entity = new Order();
+
         Payment payment = new Payment();
 
         entity.setMoment(Instant.now());
         entity.setStatus(OrderStatus.WAITING_PAYMENT);
-        entity.setClient(client);
+        entity.setClient(authenticatedUser);
 
         Order order = getOrder(orderDto.items(), entity);
 
