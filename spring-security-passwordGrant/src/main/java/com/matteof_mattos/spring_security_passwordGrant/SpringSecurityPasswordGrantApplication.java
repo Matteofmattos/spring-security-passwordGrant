@@ -8,6 +8,7 @@ public class SpringSecurityPasswordGrantApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityPasswordGrantApplication.class, args);
+		
 	}
 
 }
