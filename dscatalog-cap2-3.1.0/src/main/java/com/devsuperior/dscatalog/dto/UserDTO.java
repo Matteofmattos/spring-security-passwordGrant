@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@UserInsertValid
+
 public class UserDTO implements Serializable {
 
     @Serial
