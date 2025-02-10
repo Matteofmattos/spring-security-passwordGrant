@@ -1,13 +1,21 @@
 package com.devsuperior.dscatalog.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import com.devsuperior.dscatalog.entities.Category;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class CategoryDTO implements Serializable {
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+
+	@Size(min = 3,max = 12,message = "O campo name deve conter de 3 a 12 caracteres.")
+	@NotBlank(message = "O campo 'name' não deve ser nulo.")
 	private String name;
 	
 	public CategoryDTO() {
